@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block title %}Dashboard{% endblock %}
+{% block content%}
+{%if window.register_window == "show"%}
+<h4 align="center">Registered Courses</h4>
+<div class="mx-1">
+<table class="table table-striped table-hover table-bordered border-light mx-auto w-90">
+ <thead class="table-primary">
+ <tr>
+      <th class = "text-center" scope="col">Course Name</th>
+      <th class = "text-center" scope="col">Course Instructor</th>
+      <th class = "text-center" scope="col">Session</th>
+      <th class = "text-center" scope="col">Year</th>
+    </tr>
+  </thead>
+  <tbody class="table-group-divider">{%for registration in registrations%}
+    <tr>
+      <td class="text-center bg-light"><b>(C{{registration.course_id}})</b> {{registration.course_name}}</td>
+      <td class="text-center bg-light">{{registration.course_instructor}}</td>
+      <td class="text-center bg-light">{{registration.session}}</td>
+        <td class="text-center bg-light">{{registration.year}}</td>
+    </tr>{%endfor%}
+  </tbody>
+</table>
+</div>
+{%endif%}
+{%if window.grading_window == "show"%}
+<h4 align="center">Graded Courses</h4>
+<div class="mx-1">
+<table class="table table-striped table-hover table-bordered border-light mx-auto w-auto">
+ <thead class="table-success">
+ <tr>
+      <th class = "text-center" scope="col">Course Name</th>
+      <th class = "text-center" scope="col">Session</th>
+      <th class = "text-center" scope="col">Year</th>
+     <th class = "text-center" scope="col">Grade</th>
+    </tr>
+  </thead>
+  <tbody class="table-group-divider">{%for registration in registrations%}
+  {%if registration.course_status == "Completed for this Session"%}
+    <tr>
+        <td class="text-center bg-light"><b>(C{{registration.course_id}})</b> {{registration.course_name}}</td>
+      <td class="text-center bg-light">{{registration.session}}</td>
+        <td class="text-center bg-light">{{registration.year}}</td>
+        <td class="text-center bg-warning">{{registration.grade}}</td>
+    </tr>
+  {%endif%}
+  {%endfor%}
+  </tbody>
+</table>
+</div>
+{%endif%}
+{% endblock %}

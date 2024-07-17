@@ -1,0 +1,57 @@
+{% extends "base.html" %} {% block title %}Admin{% endblock %}
+{%block content%}
+{%if boolean==False%}
+<form class = "mx-auto col-sm-4" method="POST">
+  <h3 align="center">ADMIN Login</h3>
+  <div class="form-group  ">
+    <label for="adminUser">Admin UserName</label>
+    <input
+      type="text"
+      class="form-control text-center"
+      id="adminUser"
+      name="adminUser"
+      placeholder="Username"
+    />
+  </div>
+  <div class="form-group">
+    <label for="adminPassword">Password</label>
+    <input
+      type="password"
+      class="form-control text-center"
+      id="adminPassword"
+      name="adminPassword"
+      placeholder="Enter password"
+    />
+  </div>
+  <br />
+  <div class="form-group  row justify-content-center">
+    <div class="col-auto">
+  <button type="submit" class="btn btn-primary btn-mx-auto">Login</button>
+    </div>
+    <div class="col-auto">
+     <a href="/" class="btn btn-dark" role="button">User</a>
+    </div>
+
+    </div>
+  </form>
+  <br />
+  {%endif%}
+  {%if boolean == True%}
+    <div class="mt-5 row justify-content-center">
+      <div class="col-auto">
+         <a href="admin/s-features" class="btn btn-primary" role="button">Student</a>
+      </div>
+      <div class="col-auto">
+        <a href="admin/f-features" class="btn btn-danger" role="button">Faculty</a>
+      </div>
+    </div>
+  <div class="mt-4 row justify-content-center">
+      <div class="col-auto">
+         <a href="admin/c-features" class="btn btn-info" role="button">Courses</a>
+      </div>
+      <div class="col-auto">
+        <a href="admin/g-features" class="btn btn-success" role="button">Grading</a>
+      </div>
+    </div>
+  {%endif%}
+{%endblock%}

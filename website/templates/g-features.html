@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block title %}Grading{% endblock %}
+{% block content%}
+<h4 align="center">Grading Status</h4>
+<div class="mx-1">
+<table class="table table-striped table-hover table-bordered border-light mx-auto ">
+ <thead class="table-success">
+ <tr>
+      <th scope="col">Course ID</th>
+      <th scope="col">Course Name</th>
+     <th scope="col">Course Instructor</th>
+     <th scope="col">Offering Department</th>
+      <th scope="col">Offering Session</th>
+     <th scope="col">Current Batch Strength</th>
+     <th scope="col">Grading status</th>
+     <th scope="col">Save</th>
+    </tr>
+  </thead>
+    <form method="POST">
+  <tbody class="table-group-divider">{%for course in courses%}
+    <tr>
+        <td class="bg-light">{{course.id}}</td>
+      <td class="bg-light">{{course.name}}</td>
+        <td class="bg-light">{{course.instructor}}</td>
+        <td class="bg-light">{{course.dept_name}}</td>
+
+      <td class="bg-light">{{course.session}}</td>
+        <td class="bg-light">{{course.strength}}</td>
+         <td><select class="form-select" name="status_{{course.id}}"  aria-label="Default select example">
+                <option value="{{course.course_status.status_id}}"selected>{{course.course_status.status}}</option>
+                    {%for state in status%}
+                        {%if course.course_status.status == "Registration Open"%}
+                            <option class="w-auto" value="{{state.status_id}}" disabled>{{state.status}}</option>
+                        {%elif state.status_id  > course.course_status.status_id and state.status_id>=2%}
+
+                         <option class="w-auto" value="{{state.status_id}}">{{state.status}}</option>
+                        {%endif%}
+                    {%endfor%}
+                        </select>
+
+            </td>
+        {%if course.course_status.status == "Registration Open"%}
+        <td class="bg-light"><button class="btn btn-success " type="submit" name="saveStatus" value="{{course.id}}" disabled>Save</button></td>
+        {%else%}
+        <td class="bg-light"><button class="btn btn-success " type="submit" name="saveStatus" value="{{course.id}}" >Save</button></td>
+        {%endif%}
+
+
+    </tr>{%endfor%}
+  </tbody></form>
+</table>
+</div>
+
+{% endblock %}

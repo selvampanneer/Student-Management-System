@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% block title %}Dashboard{% endblock %}
+{% block content%}
+ <div class="justify-content-center">
+<h4 align="center">Batch List</h4>
+<div class="mx-1">
+<table class="table table-striped table-hover table-bordered border-light mx-auto w-auto">
+ <thead class="table-success">
+ <tr>
+      <th scope="col">Student Registration Number</th>
+      <th scope="col">Student Name</th>
+     <th scope="col">Grade</th>
+     <th scope="col">Assign</th>
+    </tr>
+  </thead><form method = "POST">
+  <tbody class="table-group-divider">{%for student in batch%}
+    <tr>
+        <td class="bg-light" name="course_id">{{student.reg_no}}</td>
+      <td class="bg-light">{{student.name}}</td>
+         <td>
+             <select class="form-select" name="grade_{{student.id}}"  aria-label="Default select example">
+                <option value="{{student.grade.grade_id}}"selected>{{student.grade.grade}}</option>
+                    {%for grade in grade_list%}
+                            <option class="w-auto" value="{{grade.id}}" >{{grade.grade}}</option>
+                    {%endfor%}
+             </select>
+         </td>
+        <td class="bg-light"><button class="btn btn-success " type="submit" name="assignGrade" value="{{student.id}}" >Assign</button></td>
+    </tr>{%endfor%}
+  </tbody></form>
+</table>
+</div>
+
+<div class="container text-center">
+    <button id="FreezeButton" class="btn btn-warning" data-toggle="modal" data-target="#confirmationGradeModal">Freeze</button>
+  </div>
+
+  <!-- Confirmation Modal -->
+  <div class="modal fade " id="confirmationGradeModal" tabindex="-1" role="dialog" aria-labelledby="confirmationModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content ">
+        <div class="modal-header bg-warning">
+          <h5 class="modal-title" id="confirmationGradeModalLabel">Freeze and Submit Grading - C{{course_id}}</h5>
+                <button type="button" class="btn-close"  aria-label="Close" data-dismiss="modal">
+          </button>
+        </div>
+        <div class="modal-body">
+            Course will be marked as <b>Completed for this Session</b>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+    <form method = "POST">
+     <button class="btn btn-danger btn-mx-auto" name="submitGrade" value="{{course_id}}"type="submit">Submit and Freeze</button>
+       </form> </div>
+      </div>
+    </div>
+  </div>
+     </div>
+{% endblock %}

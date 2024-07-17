@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}Dashboard{% endblock %}
+{% block content%}
+<h4 align="center">Instructing Courses</h4>
+<div class="mx-1">
+<table class="table table-striped  table-hover table-bordered border-light mx-auto ">
+ <thead class="table-danger">
+    <tr>
+      <th scope="col">Course</th>
+<!--      <th scope="col">Course Instructor</th>-->
+      <th scope="col">Session</th>
+      <th scope="col">Year</th>
+         <th scope="col">Current Batch Strength</th>
+        <th scope="col">Status</th>
+    </tr>
+  </thead>
+  <tbody class="table-group-divider">{%for instruction in instructions%}
+    <tr >
+      <td class="bg-light">C{{instruction.course_id}} - {{instruction.course_name}}</td>
+
+      <td class="bg-light">{{instruction.session}}</td>
+        <td class="bg-light">{{instruction.year}}</td>
+        <td class="bg-light text-center"><a class="btn btn-light" href="faculty_dashboard/{{instruction.course_id}}/view_batch">{{instruction.strength}}</a></td>
+        {%if instruction.status.status == "Grading Open"%}
+        <td class = "bg-light"><a class="btn btn-success" href="faculty_dashboard/{{instruction.course_id}}/grade_assigner">{{instruction.status.status}}</a></td>
+        {%else%}
+        <td class = "bg-light">{{instruction.status.status}}</td>
+        {%endif%}
+    </tr>{%endfor%}
+  </tbody>
+</table>
+</div>
+
+
+{% endblock %}

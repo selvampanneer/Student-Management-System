@@ -1,0 +1,106 @@
+{% extends "base.html" %} {% block title %}Course{% endblock %} {% block
+content %}
+<div class="col-1 mx-auto my-2 " >
+    <button id="btnGroupDrop" type="button" class="btn btn-info dropdown-toggle col-md-auto" data-bs-toggle="dropdown" aria-expanded="false">
+      Courses:
+    </button>
+    <ul class="dropdown-menu my-1 col-md-auto " aria-labelledby="btnGroupDrop">
+      <form method="POST">
+      <li ><button type="submit" class="btn btn-outline-dark dropdown-item" name="addCourse">Add new Course</button></li>
+      <li><button type="submit" class="btn btn-outline-dark dropdown-item" name="viewCourses">View Courses</button></li>
+      </form>
+    </ul>
+  </div>
+{%if feature == "addCourse"%}
+<form  class = "mx-auto  col-sm-4"method="POST">
+  <h3 align="center">Add a course</h3>
+    <div class="form-group">
+    <label for="name">Course Name</label>
+    <input
+      type="text"
+      class="form-control text-center"
+      id="name"
+      name="name"
+      placeholder="Course Name"
+      minlength="3"
+    />
+  </div>
+    <div class="form-group my-2">
+    <label for="department">Offering Department</label>
+   <select class="form-select" name = "department" id = "department" aria-label="Default select example" required>
+
+    <option value="">Department</option>
+       {% for department in dept %}
+       <option value="{{department.id}}">{{department.dept_name}}</option>
+       {%endfor%}
+</select>
+ </div>
+    <div class="form-group my-2">
+    <label for="department">Offered in Session:</label>
+   <select class="form-select" name = "session" id = "session" aria-label="Default select example" required>
+
+    <option value="">Session</option>
+       {% for session in sessions %}
+       <option value="{{session.id}}">{{session.session}}</option>
+       {%endfor%}
+</select>
+ </div>
+    <br />
+  <div class="form-group mx-auto">
+  <button type="submit" class="btn btn-info btn-mx-auto" name="submitCourse">Add Course</button>
+    </div>
+</form>
+{%endif%}
+{%if feature == "viewCourses"%}
+<h4 align="center">Courses</h4>
+<div class="mx-1">
+<table class="table table-striped table-hover table-bordered border-light mx-auto ">
+ <thead class="table-info">
+ <tr>
+      <th scope="col">Course ID</th>
+      <th scope="col">Course Name</th>
+      <th scope="col">Course Instructor</th>
+      <th scope="col">Offering Department</th>
+      <th scope="col">Offering Session</th>
+     <th scope="col">Current Batch Strength</th>
+     <th scope="col">Status</th>
+     <th scope="col">Save</th>
+
+    </tr>
+  </thead>
+    <form method = "POST">
+  <tbody class="table-group-divider">{%for course in courses%}
+    <tr>
+
+        <td class="bg-light" name="course_id">{{course.id}}</td>
+      <td class="bg-light">{{course.name}}</td>
+        <td class="bg-light">{{course.instructor}}</td>
+      <td class="bg-light">{{course.dept_name}}</td>
+      <td class="bg-light">{{course.session}}</td>
+        <td class="bg-light">{{course.strength}}</td>
+
+            <td><select class="form-select" name="status_{{course.id}}"  aria-label="Default select example">
+                <option value="{{course.course_status.status_id}}"selected>{{course.course_status.status}}</option>
+                    {%for state in status%}
+                        {%if course.course_status.status == "Grading Open"%}
+                            <option class="w-auto" value="{{state.status_id}}" disabled>{{state.status}}</option>
+                        {%elif state != course.course_status and state.status_id<2%}
+
+                         <option class="w-auto" value="{{state.status_id}}">{{state.status}}</option>
+                        {%endif%}
+                    {%endfor%}
+</select>
+
+            </td>
+        {%if course.course_status.status == "Grading Open"%}
+        <td class="bg-light"><button class="btn btn-info " type="submit" name="saveStatus" value="{{course.id}}" disabled>Save</button></td>
+
+        {%else%}
+        <td class="bg-light"><button class="btn btn-info " type="submit" name="saveStatus" value="{{course.id}}" >Save</button></td>
+    {%endif%}</tr>{%endfor%}
+  </tbody></form>
+</table>
+</div>
+{%endif%}
+
+{% endblock %}

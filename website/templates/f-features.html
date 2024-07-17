@@ -1,0 +1,148 @@
+{% extends "base.html" %} {% block title %}Faculty{% endblock %} {% block
+content %}
+ <div class="col-1 mx-auto my-2 " >
+    <button id="btnGroupDrop" type="button" class="btn btn-danger dropdown-toggle col-md-auto" data-bs-toggle="dropdown" aria-expanded="false">
+      Faculty:
+    </button>
+    <ul class="dropdown-menu my-1 col-md-auto " aria-labelledby="btnGroupDrop">
+      <form method="POST">
+      <li ><button type="submit" class="btn btn-outline-dark dropdown-item" name="addFaculty">Add new Faculty</button></li>
+      <li><button type="submit" class="btn btn-outline-dark dropdown-item" name="allocateCourse">Allocate a Course</button></li>
+      <li><button type="submit" class="btn btn-outline-dark dropdown-item" name="viewFaculty">View all Faculties</button></li>
+      </form>
+    </ul>
+  </div>
+{%if feature == 'addFaculty'%}
+<form  class = "mx-auto  col-sm-4"method="POST">
+  <h3 align="center">Register a Faculty</h3>
+  <div class="form-group">
+    <label for="firstName">First Name</label>
+    <input
+      type="text"
+      class="form-control"
+      id="firstName"
+      name="firstName"
+      minlength="3"
+      placeholder="Enter first name" required
+    />
+  </div>
+   <div class="form-group">
+    <label for="lastName">Last Name</label>
+    <input
+      type="text"
+      class="form-control"
+      id="lastName"
+      name="lastName"
+      minlength="1"
+      placeholder="Enter last name" required
+    />
+  </div>
+ <div class="form-group my-3">
+   <select class="form-group form-select" name = "dept" id="dept" aria-label="Default select example" required>
+
+  <option value="">Department</option>
+       {% for dept in group %}
+       <option value="{{dept.id}}">{{dept.dept_name}}</option>
+       {%endfor%}
+</select>
+ </div>
+  <div class="form-group">
+    <label for="password1">Password</label>
+    <input
+      type="password"
+      class="form-control"
+      id="password1"
+      name="password1"
+      minlength="4"
+      placeholder="Enter password" required
+    />
+  </div>
+
+  <br />
+  <button type="submit" class="btn btn-danger" name="submitFaculty">Submit</button>
+</form>
+{%endif%}
+{%if feature == 'allocateCourse'%}
+<form  class = "mx-auto  col-sm-4"method="POST">
+  <h3 align="center">Allocate a course</h3>
+  <div class="form-group">
+    <label for="reg_no">Faculty Registration number</label>
+    <input
+      type="text"
+      class="form-control text-center"
+      id="reg_no"
+      name="reg_no"
+      placeholder="Enter registration number"
+    />
+  </div>
+    <br />
+  <div class="form-group mx-auto">
+  <button type="submit" class="btn btn-dark btn-mx-auto" name="fetchCourses">Check Available Courses</button>
+    </div>
+</form>
+
+{%endif%}
+
+{% if feature == 'fetchCourses'%}
+<form  class = "mx-auto  col-sm-4"method="POST">
+    <h3 align="center">Allocate a course</h3>
+  <div class="form-group">
+    <label for="reg_no">Registration number</label>
+    <input
+      type="text"
+      class="form-control text-center"
+      id="reg_no:"
+      name="rno"
+      value = "{{reg_no}}"
+      readonly
+    />
+  </div>
+<div class="form-group my-2">
+    <label for="course">Available courses</label>
+   <select class="form-select" name = "course" id = "course" aria-label="Default select example" required>
+
+    <option value="">Courses</option>
+       {% for course in courses %}
+       <option value="{{course.id}}">{{course.name}} (C{{course.id}})</option>
+       {%endfor%}
+</select>
+ </div>
+    <br />
+  <div class="form-group mx-auto">
+  <button type="submit" class="btn btn-danger btn-mx-auto" name="registerCourse">Register</button>
+    </div>
+</form>
+{%endif%}
+{%if feature == "viewFaculty"%}
+<h4 align="center">Faculty Information</h4>
+<div class="mx-1">
+<table class="table table-striped table-hover table-bordered border-light mx-auto  ">
+ <thead class="table-danger ">
+ <tr>
+      <th scope="col">Faculty Registration Number</th>
+      <th scope="col">Name</th>
+      <th scope="col">Department</th>
+      <th scope="col">Instructing courses</th>
+    </tr>
+  </thead>
+  <tbody class="table-group-divider ">{%for faculty in faculty_list%}
+    <tr>
+        <td class="bg-light">{{faculty.reg_no}}</td>
+      <td class="bg-light">Prof. {{faculty.name}}</td>
+        <td class="bg-light">{{faculty.dept}}</td>
+      <td class="bg-light"><div class="dropdown">
+                    <a class="nav-link  dropdown-toggle text-center" href="#" id="Dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                      <u>  Currently Instructing</u>
+                    </a>
+                    <ul class="dropdown-menu  my-2" aria-labelledby="Dropdown">
+                    {%for course in faculty.course_ids%}
+                        <li class="dropdown-item"><b>(C{{course.id}})</b> {{course.name}}</li>
+                    {%endfor%}</ul>
+            </div>
+        </td>
+    </tr>{%endfor%}
+  </tbody>
+</table>
+</div>
+{%endif%}
+{% endblock %}

@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    {% block sytle%}
+   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+         crossorigin="anonymous">
+   <!-- Bootstrap CSS -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+        <!-- Bootstrap Icons CSS -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css" rel="stylesheet">
+
+<!--    <link-->
+<!--      rel="stylesheet"-->
+<!--      href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"-->
+<!--      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"-->
+<!--      crossorigin="anonymous"-->
+
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+      crossorigin="anonymous"
+    />
+    <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="check-circle-fill" fill="currentColor" viewBox="0 0 16 16">
+    <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+  </symbol>
+  <symbol id="info-fill" fill="currentColor" viewBox="0 0 16 16">
+    <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/>
+  </symbol>
+  <symbol id="exclamation-triangle-fill" fill="currentColor" viewBox="0 0 16 16">
+    <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+  </symbol>
+</svg>
+<style>
+    @media(min-width: 990px){
+    .dropdown-menu.center {
+        left: 50%;
+        transform: translateX(-50%);
+    }
+    }
+    .dropdown-menu.center {
+        background-color:red
+    }
+    .custom-divider {
+      border-top: 1px solid  #333; /* Customize border color and style */
+    }
+    body {
+  background-color: rgb(245,240,245);
+}
+
+</style>
+    {% endblock %}
+
+
+    <title>{% block title %}Home{% endblock %}</title>
+  </head>
+  <body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark "><a class="navbar-brand mx-3" href="#">Student Management System(SMS)</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+<!--    <div class="collapse navbar-collapse justify-content-md-center" id="navbarSupportedContent"></div>-->
+      <div class="collapse navbar-collapse justify-content-md-end mx-2" id="navbarSupportedContent">
+
+      {%if not user%}
+
+      <ul class="navbar-nav justify-content-center mx-2">
+            <li class="nav-item">
+                <a class="nav-link" href="/admin">Admin</a>
+            </li>
+
+        {%if boolean==True%}
+         <li> <a class="nav-link" href="/admin/logout">Logout</a></li>
+        {%endif%}
+         {%endif%}  </ul>
+        {%if user%}
+          {%if user.is_authenticated%}
+            <ul class="navbar-nav">
+                <li class="nav-item dropdown mx-2">
+
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Profile
+                    </a>
+               <ul class="dropdown-menu center text-center bg-light my-2" aria-labelledby="navbarDropdown">
+
+                        {%if user.reg_no[0:2] == "FC"%}
+                            <div class="dropdown-item">
+                                <div class="row text-danger">
+                                    <div class="col text-center">Faculty</div>
+                                    <div class="col text-right">{{ user.reg_no }}</div>
+                                </div>
+                            </div>
+
+
+<!--                   <span class="dropdown-item text-danger text-left">Faculty  <span class="text-right">{{user.reg_no}}</span></span>-->
+                        <li><hr class="dropdown-divider"></li>
+                         <div class="dropdown-item">Prof. {{user.first_name}} {{user.last_name}}</div>
+
+                        {%else%}
+                           <div class="dropdown-item">
+                                <div class="row text-primary">
+                                    <div class="col text-center">Faculty</div>
+                                    <div class="col text-right">{{ user.reg_no }}</div>
+                                </div>
+                            </div>
+<!--                        <span class="dropdown-item text-primary ">Student</span>-->
+                        <li><hr class="dropdown-divider"></li>
+                        <div class="dropdown-item">{{user.first_name}} {{user.last_name}}</div>
+                        {%endif%}
+<!--                    <div class="dropdown-item">{{user.first_name}} {{user.last_name}}</div>-->
+                    <div class="dropdown-item">{{dept.dept_name}} </div>
+                   <li><hr class="dropdown-divider"></li>
+<!--                    <div class="dropdown-item"><a class="btn btn-info" href="faculty_dashboard/grade_assigner">Change Password</a></div>-->
+                    <div class="container text-center">
+                        <button id="confirmButton" class="btn btn-info" data-toggle="modal" data-target="#confirmationModal">Change Password</button>
+                      </div>
+
+                      <!-- Confirmation Modal -->
+                    </ul>
+                </li>
+            </ul>
+            <ul class="navbar-nav ml-auto">
+                {%if user.reg_no[0:2] == "FC"%}
+                <li class="nav-item">
+                    <a class="nav-link mx-2" href="/faculty_dashboard">Home</a>
+                {%else%}
+                <li class="nav-item">
+                    <a class="nav-link mx-2" href="/student_dashboard">Home</a>
+                </li>
+                {%endif%}
+                <li class="nav-item">
+                    <a class="nav-link mx-2" href="/logout">Logout</a>
+                </li>
+            </ul>
+        {%else%}
+       <ul class="navbar-nav justify-content-end">
+        <li class="nav-item">
+          <a class="nav-link" href="/admin">Admin</a>
+           <li class="nav-item"></li></ul>
+        {%endif%}
+        {%endif%}
+  </div>
+</nav>              <form method="POST" action="/change_password">
+                    <div class="modal fade " id="confirmationModal" tabindex="-1" role="dialog" aria-labelledby="confirmationModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                          <div class="modal-content ">
+                            <div class="modal-header bg-info">
+                              <h5 class="modal-title" id="confirmationModalLabel">Change Password</h5>
+                                    <button type="button" class="btn-close"  aria-label="Close" data-dismiss="modal">
+                              </button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="form-group my-2">
+                                <label for="current_password">Current Password</label>
+                                <input
+                                  type="password"
+                                  class="form-control text-center my-2"
+                                  id="current_password"
+                                  name="current_password"
+                                  placeholder="Enter your current Password"
+                                />
+                              </div>
+                                <div class="form-group my-2">
+                                <label for="new_password">New Password</label>
+                                <input
+                                  type="password"
+                                  class="form-control text-center my-2"
+                                  id="new_password"
+                                  name="new_password"
+                                  placeholder="Enter your new Password"
+                                  minlength="4"
+                                  required
+                                />
+                              </div>
+                                <div class="form-group my-2">
+                                <label for="confirm_password">Confirm New Password</label>
+                                <input
+                                  type="password"
+                                  class="form-control text-center my-2"
+                                  id="confirm_password"
+                                  name="confirm_password"
+                                  placeholder="Re-Enter your new Password"
+                                  minlength="4"
+                                  required
+                                />
+                              </div>
+                            </div>
+
+                            <div class="modal-footer">
+                              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                         <button class="btn btn-warning btn-mx-auto" name="change_password" value="{{course_id}}"type="submit">Change Password</button>
+                           </div>
+                          </div>
+                        </div>
+                      </div>
+                        </form>
+
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      {% for category, message in messages %}
+        {%if category=='error'%}
+          <div class="alert alert-danger alter-dismissable fade show" role="alert">
+      {{ message }}
+      <button type="button" class="btn-close"  aria-label="Close" data-dismiss="alert">
+
+<!--        <span aria-hidden="true">&times;</span>-->
+      </button>
+    </div>
+        {%else%}
+    <div class="alert alert-success alter-dismissable fade show" role="alert">
+      <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:"><use xlink:href="#check-circle-fill"/></svg>
+      {{ message }}
+      <button type="button" class="btn-close  d-md-flex-end float-end " data-dismiss="alert" aria-label="Close">
+      </button>
+    </div>
+        {% endif %}
+      {% endfor %}
+    {% endif %}
+    {% endwith %}
+
+    {%block content%}
+
+    <div class="container mt-5 justify-content-center">
+      <h1 class="text-center">Your content goes here</h1>
+    </div>{%endblock%}
+
+    <script
+      src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+      integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+      integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+      integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+      crossorigin="anonymous"
+    ></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+          crossorigin="anonymous"></script>
+  <!-- Bootstrap JS (optional for the toggle functionality) -->
+<!--<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>-->
+  </body>
+</html>
